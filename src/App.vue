@@ -1,27 +1,30 @@
 <template>
-  <Button :url="url" :style="style" :label="label" />
+  <!-- <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </div> -->
+  <router-view />
 </template>
 
-<script>
-import Button from "./components/Button.vue";
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-export default {
-  name: "App",
-  components: {
-    Button,
-  },
-  computed: {
-    url() {
-      return this.$route.query.url || "http://google.com";
-    },
-    label() {
-      return this.$route.query.label;
-    },
-    style() {
-      return this.$route.query.style;
-    },
-  },
-};
-</script>
+#nav {
+  padding: 30px;
+}
 
-<style></style>
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
