@@ -1,15 +1,14 @@
 <template>
-<div>
-  <button
-    class="btn btn-primary"
-    :style="style"
-    @click="clicked"
-    :disabled="working || done"
-  >
-    {{ buttonLabel }}
-  </button>
-  <p v-if="done" >Done! (<a href="#" @click="reset">reset</a>)</p>
-
+  <div>
+    <button
+      class="btn btn-primary"
+      :style="style"
+      @click="clicked"
+      :disabled="working || done"
+    >
+      {{ label }}
+    </button>
+    <p v-if="done">Done! (<a @click="reset">reset</a>)</p>
   </div>
 </template>
 
@@ -17,39 +16,41 @@
 export default {
   props: {
     style: String,
-    label: String,
+    label: { type: String, default: "Submit" },
     url: String,
+    method: { type: String, default: "GET" },
   },
   data: () => ({
     done: false,
     working: false,
+    error: false,
   }),
   methods: {
-    clicked() {
-      this.working = true;
-      //window.location = this.url;
-      
-      const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title: "Vue POST Request Example" })
-  };
-  fetch("https://jsonplaceholder.typicode.com/posts", requestOptions)
-    .then(response => response.json())
-    .then(data => (this.postId = data.id));
-    
-      this.done = true;
+    async clicked() {
+      try {
+        this.working = true;
+
+        const requestOptions = {
+          method: this.method,
+        };
+
+        const response = await fetch(this.url, requestOptions);
+
+        if (response.status > 210 || response.status < 200)
+          throw new Error(response);
+
+        this.done = true;
+      } catch (err) {
+        console.log(err);
+        this.error = true;
+      }
     },
     reset() {
       this.working = false;
       this.done = false;
     },
   },
-  computed: {
-    buttonLabel() {
-      return this.label || "Submit";
-    },
-  },
+  computed: {},
 };
 </script>
 
