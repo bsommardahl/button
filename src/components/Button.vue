@@ -9,6 +9,7 @@
       {{ label }}
     </button>
     <p v-if="done">Done! (<a @click="reset">reset</a>)</p>
+    <p class="error" v-if="error">Error: {{ error }}</p>
   </div>
 </template>
 
@@ -27,6 +28,7 @@ export default {
   }),
   methods: {
     async clicked() {
+      this.error = false;
       try {
         this.working = true;
 
@@ -42,16 +44,24 @@ export default {
         this.done = true;
       } catch (err) {
         console.log(err);
-        this.error = true;
+        this.error = err;
       }
     },
     reset() {
       this.working = false;
       this.done = false;
+      this.error = false;
     },
   },
   computed: {},
 };
 </script>
 
-<style></style>
+<style>
+.error {
+  color: red;
+  padding: 5px;
+  background-color: pink;
+  border: red solid 1px;
+}
+</style>

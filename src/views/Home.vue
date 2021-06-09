@@ -5,8 +5,10 @@
     <p>Method: <input v-model="method" /></p>
     <p>Label: <input v-model="label" /></p>
     <p>Style: <input v-model="style" /></p>
-    <pre> {{ generatedUrl }} </pre>
-    <p><a :href="generatedUrl">View</a></p>
+    <div v-if="url">
+      <pre> {{ generatedUrl }} </pre>
+      <p><a :href="generatedUrl">View</a></p>
+    </div>
   </div>
 </template>
 
