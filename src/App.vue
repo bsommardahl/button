@@ -10,16 +10,16 @@ export default {
   components: {
     Button,
   },
-  data: () => ({
-    url: "/",
-    style: false,
-    label: false,
-  }),
-  mounted() {
-    console.log(this.$route);
-    this.label = this.$route.query.label;
-    this.style = this.$route.query.style;
-    this.url = this.$route.query.url || "http://google.com";
+  computed: {
+    url() {
+      return this.$route.query.url || "http://google.com";
+    },
+    label() {
+      return this.$route.query.label;
+    },
+    style() {
+      return this.$route.query.style;
+    },
   },
 };
 </script>
